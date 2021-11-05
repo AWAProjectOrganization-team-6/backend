@@ -14,3 +14,6 @@ This will build all the files and to start file watcher to look for file changes
 
 And after building to start the API run `npm run dev` in seperate console, this will also starts a file watcher for the build folder.
 
+# Requirements
+Node.js version 16.13.0 or newer.
+
