@@ -61,4 +61,7 @@ typings/
 .next
 
 # Build folders
-dist-server/
+dist-server
+
+# Miscellaneous
+.vscode
