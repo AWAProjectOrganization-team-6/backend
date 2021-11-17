@@ -4,7 +4,7 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import cors from 'cors';
 
-import example from './routes/example';
+import user from './routes/user';
 
 
 var app = express();
@@ -17,6 +17,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(cors());
 
-app.use('/example', example);
+app.use('/user', user);
 
 module.exports = app;
