@@ -47,11 +47,48 @@ export const model = {
 
     /**
      * Update users info with the new info
-     * @param {number} userId users id in the database
+     * @param {number} userId id of the user which to modify
      * @param {import('../@types/userModel').modifyUserInfo} user user date object without username, user id and user type
      * @throws Error if the sql update fails
      * @returns {Promise<import('../@types/userModel').userReponse>}
      */
-    modifyUser: (userId, user) => sql`UPDATE "user" SET ${sql(user)} WHERE user_id=${userId} RETURNING *`
+    modifyUser: (userId, user) => sql`UPDATE "user" SET ${sql(user)} WHERE user_id=${userId} RETURNING *`,
+
+    /**
+     * Delete a user from the database
+     * @param {number} id user accounts id
+     * @returns 
+     */
+    deleteUser: (id) => sql`DELETE FROM "user" WHERE user_id=${id}`,
+
+    /**
+     * Create new saved payment information
+     * @param {import('../@types/userModel').createPaymentInfo} info payment option information
+     * @throws Error if the sql insert fails
+     * @returns {Promise<import('../@types/userModel').paymentInfoResponse>}
+     */
+    createPaymentInfo: (info) => sql`INSERT INTO "payment_information" ${sql(info)} RETURNING *`,
+
+    /**
+     * Deletes the users saved payment information from the database
+     * @param {number} id the id number of the users payment info to delete
+     * @returns {Promise<import('../@types/userModel').paymentInfoResponse>}
+     */
+    deletePaymentInfo: (id) => sql`DELETE FROM "payment_information" WHERE payment_information_id=${id} RETURNING *`,
+
+    /**
+     * Creates new entry for the users addresses
+     * @param {import('../@types/userModel').createAddressInfo} info users address information
+     * @throws Error if the sql insert fails
+     * @returns {Promise<import('../@types/userModel').addressResponse>}
+     */
+    createAddress: (info) => sql`INSERT INTO "address" ${info} RETURNING *`,
+
+    /**
+     * Deletes the users address from the database
+     * @param {number} id address information id
+     * @returns {Promise<import('../@types/userModel').addressResponse>}
+     */
+    deleteAddress: (id) => sql`DELETE FROM "address" WHERE address_id=${id} RETURNING *`
 
 };
