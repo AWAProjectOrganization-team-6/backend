@@ -14,47 +14,33 @@
             "email": "email@email.com"
         }
     ],
-    "required": [
-        "password",
-        "first_name",
-        "last_name",
-        "phone",
-        "email"
-    ],
+    "required": ["password", "first_name", "last_name", "phone", "email"],
     "properties": {
         "password": {
             "$id": "#/properties/password",
             "default": "",
-            "examples": [
-                "password"
-            ],
+            "examples": ["password"],
             "title": "New users password",
             "type": "string"
         },
         "first_name": {
             "$id": "#/properties/first_name",
             "default": "",
-            "examples": [
-                "name"
-            ],
+            "examples": ["name"],
             "title": "Users first name",
             "type": "string"
         },
         "last_name": {
             "$id": "#/properties/last_name",
             "default": "",
-            "examples": [
-                "name"
-            ],
+            "examples": ["name"],
             "title": "Users last name",
             "type": "string"
         },
         "phone": {
             "$id": "#/properties/phone",
             "default": "",
-            "examples": [
-                "phone mun"
-            ],
+            "examples": ["phone mun"],
             "title": "Users phone number",
             "type": "string",
             "maxLength": 15
@@ -62,9 +48,7 @@
         "email": {
             "$id": "#/properties/email",
             "default": "",
-            "examples": [
-                "email@email.com"
-            ],
+            "examples": ["email@email.com"],
             "title": "Users email address",
             "type": "string"
         }

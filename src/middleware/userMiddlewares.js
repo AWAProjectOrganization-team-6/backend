@@ -9,7 +9,7 @@ const createUserValidator = ajv.compile(createUserSchema);
 const modifyUserValidator = ajv.compile(modifyUserSchema);
 const createPaymentInfoValidator = ajv.compile(createPaymentInfoSchema);
 
-/** 
+/**
  * Validator for validating user creation json.
  * @type {import('express').RequestHandler}
  */

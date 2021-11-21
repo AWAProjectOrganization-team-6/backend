@@ -1,9 +1,7 @@
 import { sql } from '../datebase';
 
-
 export const model = {
-
-    /** 
+    /**
      * Get all users from database.
      * @return {Promise<import('../@types/userModel').userReponse>}
      */
@@ -57,7 +55,7 @@ export const model = {
     /**
      * Delete a user from the database
      * @param {number} id user accounts id
-     * @returns 
+     * @returns
      */
     deleteUser: (id) => sql`DELETE FROM "user" WHERE user_id=${id}`,
 
@@ -89,6 +87,5 @@ export const model = {
      * @param {number} id address information id
      * @returns {Promise<import('../@types/userModel').addressResponse>}
      */
-    deleteAddress: (id) => sql`DELETE FROM "address" WHERE address_id=${id} RETURNING *`
-
+    deleteAddress: (id) => sql`DELETE FROM "address" WHERE address_id=${id} RETURNING *`,
 };

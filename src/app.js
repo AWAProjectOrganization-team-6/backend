@@ -6,7 +6,6 @@ import cors from 'cors';
 
 import user from './routes/user';
 
-
 var app = express();
 
 app.use(logger('dev'));

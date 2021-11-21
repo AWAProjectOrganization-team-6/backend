@@ -101,16 +101,7 @@
         "required": ["type"]
     },
     "then": {
-        "required": [
-            "card_num",
-            "cvv",
-            "expiration_date",
-            "first_name",
-            "last_name",
-            "street_address",
-            "city",
-            "postcode"
-        ]
+        "required": ["card_num", "cvv", "expiration_date", "first_name", "last_name", "street_address", "city", "postcode"]
     },
     "additionalProperties": false
 }

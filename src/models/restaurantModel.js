@@ -1,7 +1,6 @@
 import { sql } from '../datebase';
 
 export const model = {
-
     /**
      * Gets all restaurants from database
      * @returns {Promise<import('../@types/restaurantModel').restaurantResponse>}
@@ -16,7 +15,7 @@ export const model = {
     getRestaurant: (id) => sql`SELECT * FROM "restaurant" WHERE restaurant_id=${id}`,
 
     /**
-     * Creates a new restaurant and returns its information in the database
+     * Creates a new restaurant in the database
      * @param {import('../@types/restaurantModel').createRestaurantInfo} info restaurants info struct
      * @throws Error if the sql insert fails
      * @returns {Promise<import('../@types/restaurantModel').restaurantResponse>}
@@ -55,7 +54,7 @@ export const model = {
     createOperatingHours: (info) => sql`INSERT INTO "operating_hours" ${sql(info)} RETURNING *`,
 
     /**
-     * Updates an operating hours entry with the given information 
+     * Updates an operating hours entry with the given information
      * @param {number} operatingHoursId id of the entry to modify
      * @param {import('../@types/restaurantModel').modifyOperatingHoursInfo} info opearating hours info without opearating_hours_id and restaraunt_id
      * @throws Error if the sql update fails
@@ -68,6 +67,5 @@ export const model = {
      * @param {number} id id of the entry to delete
      * @returns {Promise<import('../@types/restaurantModel').operatingHoursResponse>}
      */
-    deleteOperatingHours: (id) => sql`DELETE FROM "operating_hours" WHERE operating_hours_id=${id} RETURNING *`
-    
+    deleteOperatingHours: (id) => sql`DELETE FROM "operating_hours" WHERE operating_hours_id=${id} RETURNING *`,
 };

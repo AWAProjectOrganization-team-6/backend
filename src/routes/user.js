@@ -2,7 +2,6 @@ import { Router as _router } from 'express';
 import { createUserJsonValidator, modifyUserJsonValidator } from '../middleware/userMiddlewares';
 import { model } from '../models/userModel';
 
-
 const router = _router();
 
 /**
