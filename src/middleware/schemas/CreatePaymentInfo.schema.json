@@ -1,0 +1,107 @@
+{
+    "$id": "http://example.com/createPaymentInfo.schema.json",
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "default": {},
+    "description": "The root schema comprises the entire JSON document.",
+    "examples": [
+        {
+            "user_id": 1,
+            "type": "card",
+            "card_num": "num",
+            "cvv": "123",
+            "expiration_date": "12-08-2021",
+            "first_name": "Name",
+            "last_name": "Name",
+            "street_address": "adddress",
+            "city": "city",
+            "postcode": "12345"
+        }
+    ],
+    "required": ["user_id", "type"],
+    "title": "The root schema",
+    "type": "object",
+    "properties": {
+        "user_id": {
+            "$id": "#/properties/user_id",
+            "default": 0,
+            "examples": [1],
+            "title": "User account id",
+            "type": "integer"
+        },
+        "type": {
+            "$id": "#/properties/type",
+            "default": "",
+            "examples": ["card"],
+            "title": "Payment information type",
+            "type": "string"
+        },
+        "card_num": {
+            "$id": "#/properties/card_num",
+            "default": "",
+            "examples": ["num"],
+            "title": "Credit card number",
+            "type": "string"
+        },
+        "cvv": {
+            "$id": "#/properties/cvv",
+            "default": "",
+            "examples": ["123"],
+            "title": "Creadit card cvv number",
+            "maxLength": 3,
+            "minLength": 3,
+            "type": "string"
+        },
+        "expiration_date": {
+            "$id": "#/properties/expiration_date",
+            "default": "",
+            "examples": ["01-08-2021"],
+            "title": "Credit card expiration date",
+            "type": "string"
+        },
+        "first_name": {
+            "$id": "#/properties/first_name",
+            "default": "",
+            "examples": ["Name"],
+            "title": "Credit card owners first name",
+            "type": "string"
+        },
+        "last_name": {
+            "$id": "#/properties/last_name",
+            "default": "",
+            "examples": ["Name"],
+            "title": "Credit card owners last name",
+            "type": "string"
+        },
+        "street_address": {
+            "$id": "#/properties/street_address",
+            "default": "",
+            "examples": ["adddress"],
+            "title": "Billing address",
+            "type": "string"
+        },
+        "city": {
+            "$id": "#/properties/city",
+            "default": "",
+            "examples": ["city"],
+            "title": "Billing addresses city",
+            "type": "string"
+        },
+        "postcode": {
+            "$id": "#/properties/postcode",
+            "default": "",
+            "examples": ["12345"],
+            "title": "Billing addresses postcode",
+            "type": "string"
+        }
+    },
+    "if": {
+        "properties": {
+            "type": { "const": "card" }
+        },
+        "required": ["type"]
+    },
+    "then": {
+        "required": ["card_num", "cvv", "expiration_date", "first_name", "last_name", "street_address", "city", "postcode"]
+    },
+    "additionalProperties": false
+}
