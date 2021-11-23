@@ -33,7 +33,7 @@ export const model = {
      * @param {string} usernmae users login username
      * @returns {Promise<import('../@types/userModel').userCredentialsResponse>}
      */
-    getUserCredentials: (usernmae) => sql`SELECT username, password FROM "user" WHERE username=${usernmae}`,
+    getUserCredentials: (usernmae) => sql`SELECT user_id, username, password FROM "user" WHERE username=${usernmae}`,
 
     /**
      * Create new user with the given user info

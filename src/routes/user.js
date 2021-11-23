@@ -1,30 +1,16 @@
 import { Router as _router } from 'express';
 import { createUserJsonValidator, modifyUserJsonValidator } from '../middleware/userMiddlewares';
 import { model } from '../models/userModel';
+import { authenticateBasic, authenticateJwt, getPaswordHash } from '../middleware/authenticate';
 
 const router = _router();
 
 /**
- * Get all users from database
- */
-router.get('/', async (req, res) => {
-    var dbResult = await model.getUsers();
-    res.status(200).json(dbResult);
-});
-
-/**
- * Get single user by id
- */
-router.get('/:id', async (req, res) => {
-    var [user] = await model.getUser(req.params.id);
-    res.status(200).json(user);
-});
-
-/**
  * Get users addresses
  */
-router.get('/address/:userId', async (req, res) => {
-    var [addresses] = await model.getUserAddresses(req.params.userId);
+router.get('/address', authenticateJwt, async (req, res) => {
+    console.log(req.user);
+    var [addresses] = await model.getUserAddresses(req.user.user_id);
     res.status(200).json(addresses);
 });
 
@@ -37,20 +23,35 @@ router.get('/payment/:userId', async (req, res) => {
 });
 
 /**
- * Login with user
+ * Get all users from database
  */
-router.get('/login/:username', async (req, res) => {
-    var [credentials] = await model.getUserCredentials(req.params.username);
-    res.status(200).json(credentials);
+router.get('/all', authenticateBasic, async (req, res) => {
+    var dbResult = await model.getUsers();
+    dbResult.forEach((user) => {
+        user.password = user.password.toString();
+    });
+    res.status(200).json(dbResult);
+});
+
+/**
+ * Get single user by id
+ */
+router.get('/', authenticateJwt, async (req, res) => {
+    var [user] = await model.getUser(req.user.user_id);
+    user.password = user.password.toString();
+    res.status(200).json(user);
 });
 
 /**
  * Create new user
  */
-router.post('/user', createUserJsonValidator, async (req, res) => {
+router.post('/', createUserJsonValidator, async (req, res) => {
+    const userInfo = req.body;
+    userInfo.password = await getPaswordHash(userInfo.password);
     try {
-        var [newUser] = await model.createUser(req.body);
-        res.status(200).json(newUser);
+        var [newUser] = await model.createUser(userInfo);
+        newUser.password = newUser.password.toString();
+        res.status(200).json({ newUser, token: sign({ userId: newUser.user_id }, 'Secret_key', { expiresIn: 600 }) });
     } catch (error) {
         res.status(400).json(error.message);
         console.log(error);
@@ -60,14 +61,23 @@ router.post('/user', createUserJsonValidator, async (req, res) => {
 /**
  * Edit user information
  */
-router.put('/user', modifyUserJsonValidator, async (req, res) => {
+router.put('/', authenticateJwt, modifyUserJsonValidator, async (req, res) => {
+    const userInfo = req.body.user;
+    userInfo.password = await getPaswordHash(userInfo.password);
     try {
-        var [editedUser] = await model.modifyUser(req.body.userId, req.body.user);
+        var [editedUser] = await model.modifyUser(req.body.userId, userInfo);
         res.status(200).json(editedUser);
     } catch (error) {
         res.status(400).json(error.message);
         console.log(error);
     }
+});
+
+import { hash } from 'argon2';
+import { sign } from 'jsonwebtoken';
+router.get('/hash', async (req, res) => {
+    const _hash = await hash(req.query.hash, { timeCost: 10, memoryCost: 2 ** 17, parallelism: 4 });
+    res.json({ hash: _hash });
 });
 
 export default router;
