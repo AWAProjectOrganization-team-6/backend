@@ -11,7 +11,7 @@ type user = {
     email: string;
 };
 
-type userCredentials = Omit<user, 'type' | 'user_id' | 'first_name' | 'last_name' | 'email' | 'phone'>;
+type userCredentials = Omit<user, 'type' | 'first_name' | 'last_name' | 'email' | 'phone'>;
 type createUserInfo = Omit<user, 'user_id'> & { type: 'ADMIN' | 'USER' };
 type modifyUserInfo = Omit<user, 'user_id' | 'type' | 'username'>;
 
