@@ -51,10 +51,10 @@ router.post('/', createUserJsonValidator, async (req, res) => {
     try {
         var [newUser] = await model.createUser(userInfo);
         newUser.password = newUser.password.toString();
-        res.status(200).json({ newUser, token: sign({ userId: newUser.user_id }, 'Secret_key', { expiresIn: 600 }) });
+        res.json({ user: newUser, token: sign({ userId: newUser.user_id }, 'Secret_key', { expiresIn: 600 }) });
     } catch (error) {
-        res.status(400).json(error.message);
         console.log(error);
+        res.status(400).json(error.message);
     }
 });
 
@@ -66,10 +66,10 @@ router.put('/', authenticateJwt, modifyUserJsonValidator, async (req, res) => {
     userInfo.password = await getPaswordHash(userInfo.password);
     try {
         var [editedUser] = await model.modifyUser(req.body.userId, userInfo);
-        res.status(200).json(editedUser);
+        res.json(editedUser);
     } catch (error) {
-        res.status(400).json(error.message);
         console.log(error);
+        res.status(400).json(error.message);
     }
 });
 

@@ -10,7 +10,7 @@ export const model = {
     /**
      * Get all product of a given restaurant
      * @param {number} restarauntId id of the restaurant which products to get
-     * @returns {Pormise<import('../@types/productModel').productReponse>}
+     * @returns {Promise<import('../@types/productModel').productReponse>}
      */
     getProductsOfRestaurant: (restarauntId) => sql`SELECT * FROM "product" WHERE restaurant_id=${restarauntId}`,
 

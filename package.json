@@ -4,12 +4,12 @@
     "private": true,
     "scripts": {
         "start": "npm run prod",
+        "dev:start": "nodemon dev:start",
         "build": "npm-run-all clean transpile",
+        "clean": "rimraf dist-server",
+        "transpile": "babel ./src --out-dir dist-server --copy-files",
         "server": "node ./dist-server/bin/www",
         "prod": "npm-run-all build server",
-        "transpile": "babel ./src --out-dir dist-server --copy-files",
-        "clean": "rimraf dist-server",
-        "dev:start": "nodemon dev:start",
         "dev": "npm-run-all build ./dist-server/bin/www"
     },
     "dependencies": {

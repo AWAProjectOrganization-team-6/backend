@@ -5,7 +5,7 @@ export const model = {
      * Gets all restaurants from database
      * @returns {Promise<import('../@types/restaurantModel').restaurantResponse>}
      */
-    getRestaurants: () => sql`SELECT * FROM "retaurant"`,
+    getRestaurants: () => sql`SELECT * FROM "restaurant"`,
 
     /**
      * Gets singele restaurant from the databese using the given id
@@ -20,7 +20,7 @@ export const model = {
      * @throws Error if the sql insert fails
      * @returns {Promise<import('../@types/restaurantModel').restaurantResponse>}
      */
-    createRestaurant: (info) => sql`INSER INTO "restaurant" ${sql(info)} RETURNING *`,
+    createRestaurant: (info) => sql`INSERT INTO "restaurant" ${sql(info)} RETURNING *`,
 
     /**
      * Update restaurant info with the new info
@@ -36,7 +36,7 @@ export const model = {
      * @param {number} id id of the restaurant to delete
      * @returns {Promise<import('../@types/restaurantModel').restaurantResponse>}
      */
-    deleteRestaurant: (id) => sql`DELETE FROM "restaurant" WHERE restaurant_id=${id} REURNING *`,
+    deleteRestaurant: (id) => sql`DELETE FROM "restaurant" WHERE restaurant_id=${id} RETURNING *`,
 
     /**
      * Get all operating hours of an restaurant

@@ -19,3 +19,7 @@ And after building to start the API run `npm run dev` in seperate console, this 
 # Requirements
 
 Node.js version 16.13.0 or newer.
+
+# Documentation
+
+[Routes](https://github.com/AWAProjectOrganization-team-6/backend/wiki/Routes)

@@ -1,0 +1,58 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://example.com/CreateModifyRestaurant.schema.json",
+    "type": "object",
+    "title": "The root schema",
+    "description": "The root schema comprises the entire JSON document.",
+    "default": {},
+    "examples": [
+        {
+            "name": "restaurant name",
+            "address": "restaurant address",
+            "price_level": 4,
+            "type": "restaurant type",
+            "picture": "image.jpg"
+        }
+    ],
+    "required": ["name", "address", "price_level", "type", "picture"],
+    "properties": {
+        "name": {
+            "$id": "#/properties/name",
+            "default": "",
+            "examples": ["restaurant name"],
+            "title": "Restaurant name",
+            "type": "string"
+        },
+        "address": {
+            "$id": "#/properties/address",
+            "default": "",
+            "examples": ["restaurant address"],
+            "title": "Restaurant address",
+            "type": "string"
+        },
+        "price_level": {
+            "$id": "#/properties/price_level",
+            "default": 0,
+            "examples": [4],
+            "title": "Restaurants price leve",
+            "maximum": 4,
+            "minimum": 1,
+            "type": "integer"
+        },
+        "type": {
+            "$id": "#/properties/type",
+            "default": "",
+            "examples": ["restaurant type"],
+            "title": "Restaurants type e.g. Pizzeria",
+            "type": "string"
+        },
+        "picture": {
+            "$id": "#/properties/picture",
+            "default": "",
+            "examples": ["image.jpg"],
+            "title": "Restaurant picture",
+            "type": "string"
+        }
+    },
+    "additionalProperties": false
+}
