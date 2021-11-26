@@ -47,7 +47,7 @@ export const model = {
 
     /**
      * Creates new entry to operating hours
-     * @param {import('../@types/restaurantModel').createOperatingHoursInfo} info operating hours info struct
+     * @param {import('../@types/restaurantModel').createOperatingHoursInfo | import('../@types/restaurantModel').createOperatingHoursInfo[]} info operating hours info struct
      * @throws Error if the sql insert fails
      * @returns {Promise<import('../@types/restaurantModel').operatingHoursResponse>}
      */
@@ -60,7 +60,7 @@ export const model = {
      * @throws Error if the sql update fails
      * @returns {Promise<import('../@types/restaurantModel').operatingHoursResponse>}
      */
-    modifyOperatingHours: (operatingHoursId, info) => sql`UPDATE "operating_hours" SET ${sql(info)} WHERE opeatrating_hours_id=${operatingHoursId} RETURNING *`,
+    modifyOperatingHours: (operatingHoursId, info) => sql`UPDATE "operating_hours" SET ${sql(info)} WHERE operating_hours_id=${operatingHoursId} RETURNING *`,
 
     /**
      * Delete an entry from operating houres

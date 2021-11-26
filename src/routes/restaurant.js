@@ -1,6 +1,6 @@
 import { Router as _router } from 'express';
 import { authenticateJwt } from '../middleware/authenticate';
-import { createRestaurantJsonValidator, modifyRestaurantJsonValidator } from '../middleware/restaurantMiddleware';
+import { createOpHoursJsonValidator, createRestaurantJsonValidator, modifyRestaurantJsonValidator } from '../middleware/restaurantMiddleware';
 import { model } from '../models/restaurantModel';
 import { model as menuModel } from '../models/productModel';
 
@@ -23,6 +23,7 @@ router.post('/', authenticateJwt, createRestaurantJsonValidator, async (req, res
     /** @type {import('../@types/restaurantModel').createRestaurantInfo} */
     const restaurant = req.body;
     if (user.type === 'USER') return res.sendStatus(403);
+
     try {
         // eslint-disable-next-line
         restaurant.user_id = user.user_id;
@@ -37,6 +38,7 @@ router.post('/', authenticateJwt, createRestaurantJsonValidator, async (req, res
 router.post('/rate', authenticateJwt, async (req, res) => {
     /** @type {import('../@types/userModel').user} */
     const user = req.user;
+
     if (user.type !== 'USER') return res.sendStatus(403);
     if (typeof req.body.rating !== 'number') return res.sendStatus(400);
     if (typeof req.body.restaurant !== 'number') return res.sendStatus(400);
@@ -49,6 +51,7 @@ router.post('/rate', authenticateJwt, async (req, res) => {
 router.put('/', authenticateJwt, modifyRestaurantJsonValidator, async (req, res) => {
     /** @type {import('../@types/userModel').user} */
     const user = req.user;
+
     let [restaurant] = await model.getRestaurant(req.body.restaurant);
     if (restaurant.user_id !== user.user_id) return res.sendStatus(403);
 
@@ -66,6 +69,23 @@ router.delete('/:id', authenticateJwt, async (req, res) => {
 
     [restaurant] = await model.deleteRestaurant(req.params.id);
     res.json(restaurant);
+});
+
+// Operating hours rotes \/
+router.post('/operating-hours', authenticateJwt, createOpHoursJsonValidator, async (req, res) => {
+    /** @type {import('../@types/userModel').user} */
+    const user = req.user;
+
+    const [restaurant] = await model.getRestaurant(req.body[0].restaurant_id);
+    if (restaurant.user_id !== user.user_id) return res.sendStatus(403);
+
+    try {
+        const ret = await model.createOperatingHours(req.body);
+        res.json(ret);
+    } catch (err) {
+        console.log(err);
+        res.send(400).json(err.message);
+    }
 });
 
 export default router;
