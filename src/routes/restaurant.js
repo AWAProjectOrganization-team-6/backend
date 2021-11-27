@@ -123,4 +123,20 @@ router.put('/operating-hours', authenticateJwt, modifyOpHoursJsonValidator, asyn
     }
 });
 
+// TODO: Add json verification as json schema
+router.delete('/operating-hours', authenticateJwt, async (req, res) => {
+    /** @type {import('../@types/userModel').user} */
+    const user = req.user;
+
+    if (typeof req.body.restaurant !== 'number') return res.sendStatus(400);
+    if (!Array.isArray(req.body.operating_hours) || !req.body.operating_hours.every((val) => typeof val === 'number')) return res.sendStatus(400);
+
+    const [restaurant] = await model.getRestaurant(req.body.restaurant);
+    if (!restaurant) return res.sendStatus(404);
+    if (restaurant.user_id !== user.user_id) return res.sendStatus(403);
+
+    var result = await model.deleteOperatingHours(restaurant.restaurant_id, req.body.operating_hours);
+    res.json(result);
+});
+
 export default router;

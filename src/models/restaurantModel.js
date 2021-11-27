@@ -66,8 +66,10 @@ export const model = {
 
     /**
      * Delete an entry from operating houres
-     * @param {number} id id of the entry to delete
+     * @param {number} restaurantId id of the restaurant of the operating hours
+     * @param {number[]} id id of the entry to delete
      * @returns {Promise<import('../@types/restaurantModel').operatingHoursResponse>}
      */
-    deleteOperatingHours: (id) => sql`DELETE FROM "operating_hours" WHERE operating_hours_id=${id} RETURNING *`,
+    deleteOperatingHours: (restaurantId, id) =>
+        sql`DELETE FROM "operating_hours" WHERE operating_hours_id IN (${id}) AND restaurant_id = ${restaurantId} RETURNING *`,
 };
