@@ -55,12 +55,14 @@ export const model = {
 
     /**
      * Updates an operating hours entry with the given information
+     * @param {number} restaurantId id of the restaurant of the opertating hour
      * @param {number} operatingHoursId id of the entry to modify
      * @param {import('../@types/restaurantModel').modifyOperatingHoursInfo} info opearating hours info without opearating_hours_id and restaraunt_id
      * @throws Error if the sql update fails
      * @returns {Promise<import('../@types/restaurantModel').operatingHoursResponse>}
      */
-    modifyOperatingHours: (operatingHoursId, info) => sql`UPDATE "operating_hours" SET ${sql(info)} WHERE operating_hours_id=${operatingHoursId} RETURNING *`,
+    modifyOperatingHours: (restaurantId, operatingHoursId, info) =>
+        sql`UPDATE "operating_hours" SET ${sql(info)} WHERE operating_hours_id=${operatingHoursId} AND restaurant_id=${restaurantId} RETURNING *`,
 
     /**
      * Delete an entry from operating houres
