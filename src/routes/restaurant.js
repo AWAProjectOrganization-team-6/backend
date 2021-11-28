@@ -67,11 +67,11 @@ router.put('/', authenticateJwt, modifyRestaurantJsonValidator, async (req, res)
 });
 
 // TODO: Add json verification as json schema
-router.delete('/:id', authenticateJwt, async (req, res, next) => {
+router.delete('/:id', authenticateJwt, async (req, res) => {
     /** @type {import('../@types/userModel').user} */
     const user = req.user;
 
-    if (req.params.id !== 'number') return next('route');
+    if (req.params.id !== 'number') return res.sendStatus(400);
     let [restaurant] = await model.getRestaurant(req.params.id);
     if (!restaurant) return res.sendStatus(404);
     if (restaurant.user_id !== user.user_id /* && user.type !== 'SUPER'*/) return res.sendStatus(403);
@@ -81,6 +81,12 @@ router.delete('/:id', authenticateJwt, async (req, res, next) => {
 });
 
 // Operating hours rotes \/
+router.get('/:id/operating-hours', async (req, res) => {
+    if (typeof req.params.id !== 'number') return res.sendStatus(400);
+    const operatingHours = await model.getOpearatingHours(req.params.id);
+    res.json(operatingHours);
+});
+
 router.post('/operating-hours', authenticateJwt, createOpHoursJsonValidator, async (req, res) => {
     /** @type {import('../@types/userModel').user} */
     const user = req.user;
@@ -98,7 +104,7 @@ router.post('/operating-hours', authenticateJwt, createOpHoursJsonValidator, asy
     }
 });
 
-router.put('/operating-hours', authenticateJwt, modifyOpHoursJsonValidator, async (req, res) => {
+router.patch('/operating-hours', authenticateJwt, modifyOpHoursJsonValidator, async (req, res) => {
     /** @type {import('../@types/userModel').user} */
     const user = req.user;
 
@@ -124,7 +130,7 @@ router.put('/operating-hours', authenticateJwt, modifyOpHoursJsonValidator, asyn
 });
 
 // TODO: Add json verification as json schema
-router.delete('/operating-hours', authenticateJwt, async (req, res) => {
+router.patch('/operating-hours/delete', authenticateJwt, async (req, res) => {
     /** @type {import('../@types/userModel').user} */
     const user = req.user;
 
