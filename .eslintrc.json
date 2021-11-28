@@ -13,7 +13,6 @@
     "parserOptions": {
         "sourceType": "module"
     },
-    "ignorePatterns": ["dist-server/"],
     "rules": {
         "accessor-pairs": "warn",
         "array-callback-return": "warn",
