@@ -24,7 +24,7 @@ type operatingHours = {
 };
 
 type createOperatingHoursInfo = Omit<operatingHours, 'operating_hours_id'>;
-type modifyOperatingHoursInfo = Omit<operatingHours, 'restaurant_id'>;
+type modifyOperatingHoursInfo = Omit<operatingHours, 'operating_hours_id' | 'restaurant_id'>;
 
 type restaurantResponse = response<restaurant>;
 type operatingHoursResponse = response<operatingHours>;
