@@ -43,7 +43,7 @@ export const model = {
      * @param {number} restaurantId id of the restaurant which operating hour entryes to get
      * @returns {Promise<import('../@types/restaurantModel').operatingHoursResponse>}
      */
-    getOpearatingHours: (restaurantId) => sql`SELECT FROM "operating_hours" WHERE restaurant_id=${restaurantId}`,
+    getOpearatingHours: (restaurantId) => sql`SELECT * FROM "operating_hours" WHERE restaurant_id=${restaurantId}`,
 
     /**
      * Creates new entry to operating hours

@@ -13,6 +13,10 @@ const router = _router();
 
 // Restaurant routes \/
 router.get('/:id/menu', async (req, res) => {
+    const restaurantId = parseInt(req.params.id, 10);
+
+    if (restaurantId != req.params.id) return res.sendStatus(400);
+
     const menu = await menuModel.getProductsOfRestaurant(req.params.id);
     res.json(menu);
 });
@@ -70,8 +74,9 @@ router.put('/', authenticateJwt, modifyRestaurantJsonValidator, async (req, res)
 router.delete('/:id', authenticateJwt, async (req, res) => {
     /** @type {import('../@types/userModel').user} */
     const user = req.user;
+    const restaurantId = parseInt(req.params.id, 10);
 
-    if (req.params.id !== 'number') return res.sendStatus(400);
+    if (restaurantId != req.params.id) return res.sendStatus(400);
     let [restaurant] = await model.getRestaurant(req.params.id);
     if (!restaurant) return res.sendStatus(404);
     if (restaurant.user_id !== user.user_id /* && user.type !== 'SUPER'*/) return res.sendStatus(403);
@@ -82,8 +87,9 @@ router.delete('/:id', authenticateJwt, async (req, res) => {
 
 // Operating hours rotes \/
 router.get('/:id/operating-hours', async (req, res) => {
-    if (typeof req.params.id !== 'number') return res.sendStatus(400);
-    const operatingHours = await model.getOpearatingHours(req.params.id);
+    const restaurantId = parseInt(req.params.id, 10);
+    if (restaurantId != req.params.id) return res.sendStatus(400);
+    const operatingHours = await model.getOpearatingHours(restaurantId);
     res.json(operatingHours);
 });
 

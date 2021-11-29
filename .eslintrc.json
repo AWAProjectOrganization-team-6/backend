@@ -31,8 +31,6 @@
                 "allowKeywords": true
             }
         ],
-        "eol-last": "off",
-        "eqeqeq": "warn",
         "func-name-matching": "warn",
         "func-names": ["warn", "as-needed"],
         "global-require": "warn",

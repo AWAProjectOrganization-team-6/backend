@@ -6,7 +6,7 @@ import cors from 'cors';
 
 import user from './routes/user';
 import login from './routes/login';
-import restaurant from './routes/restaurant'
+import restaurant from './routes/restaurant';
 import passport from 'passport';
 
 var app = express();
