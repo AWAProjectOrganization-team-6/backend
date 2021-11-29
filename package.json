@@ -1,16 +1,17 @@
 {
     "name": "backend",
-    "version": "0.2.0",
+    "version": "0.5.0",
     "private": true,
     "scripts": {
         "start": "npm run prod",
+        "dev:start": "nodemon dev:start",
         "build": "npm-run-all clean transpile",
+        "clean": "rimraf dist-server",
+        "transpile": "babel ./src --out-dir dist-server --copy-files",
         "server": "node ./dist-server/bin/www",
         "prod": "npm-run-all build server",
-        "transpile": "babel ./src --out-dir dist-server --copy-files",
-        "clean": "rimraf dist-server",
-        "dev:start": "nodemon dev:start",
-        "dev": "npm-run-all build ./dist-server/bin/www"
+        "dev": "npm-run-all build ./dist-server/bin/www",
+        "prepare": "husky install"
     },
     "dependencies": {
         "@babel/cli": "^7.16.0",
@@ -39,6 +40,8 @@
         "@babel/eslint-plugin": "^7.14.5",
         "eslint": "^8.1.0",
         "eslint-config-prettier": "^8.3.0",
+        "husky": "^7.0.4",
+        "lint-staged": "^12.1.2",
         "nodemon": "^2.0.14",
         "prettier": "^2.4.1"
     },
@@ -51,5 +54,9 @@
             "*.test.js",
             "*.spec.js"
         ]
+    },
+    "lint-staged": {
+        "*.js": "eslint --cache --fix",
+        "*.{js,css,md}": "prettier --write"
     }
 }

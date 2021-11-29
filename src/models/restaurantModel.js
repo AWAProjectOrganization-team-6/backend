@@ -5,7 +5,7 @@ export const model = {
      * Gets all restaurants from database
      * @returns {Promise<import('../@types/restaurantModel').restaurantResponse>}
      */
-    getRestaurants: () => sql`SELECT * FROM "retaurant"`,
+    getRestaurants: () => sql`SELECT * FROM "restaurant"`,
 
     /**
      * Gets singele restaurant from the databese using the given id
@@ -20,7 +20,7 @@ export const model = {
      * @throws Error if the sql insert fails
      * @returns {Promise<import('../@types/restaurantModel').restaurantResponse>}
      */
-    createRestaurant: (info) => sql`INSER INTO "restaurant" ${sql(info)} RETURNING *`,
+    createRestaurant: (info) => sql`INSERT INTO "restaurant" ${sql(info)} RETURNING *`,
 
     /**
      * Update restaurant info with the new info
@@ -36,18 +36,18 @@ export const model = {
      * @param {number} id id of the restaurant to delete
      * @returns {Promise<import('../@types/restaurantModel').restaurantResponse>}
      */
-    deleteRestaurant: (id) => sql`DELETE FROM "restaurant" WHERE restaurant_id=${id} REURNING *`,
+    deleteRestaurant: (id) => sql`DELETE FROM "restaurant" WHERE restaurant_id=${id} RETURNING *`,
 
     /**
      * Get all operating hours of an restaurant
      * @param {number} restaurantId id of the restaurant which operating hour entryes to get
      * @returns {Promise<import('../@types/restaurantModel').operatingHoursResponse>}
      */
-    getOpearatingHours: (restaurantId) => sql`SELECT FROM "operating_hours" WHERE restaurant_id=${restaurantId}`,
+    getOpearatingHours: (restaurantId) => sql`SELECT * FROM "operating_hours" WHERE restaurant_id=${restaurantId}`,
 
     /**
      * Creates new entry to operating hours
-     * @param {import('../@types/restaurantModel').createOperatingHoursInfo} info operating hours info struct
+     * @param {import('../@types/restaurantModel').createOperatingHoursInfo | import('../@types/restaurantModel').createOperatingHoursInfo[]} info operating hours info struct
      * @throws Error if the sql insert fails
      * @returns {Promise<import('../@types/restaurantModel').operatingHoursResponse>}
      */
@@ -55,17 +55,21 @@ export const model = {
 
     /**
      * Updates an operating hours entry with the given information
+     * @param {number} restaurantId id of the restaurant of the opertating hour
      * @param {number} operatingHoursId id of the entry to modify
      * @param {import('../@types/restaurantModel').modifyOperatingHoursInfo} info opearating hours info without opearating_hours_id and restaraunt_id
      * @throws Error if the sql update fails
      * @returns {Promise<import('../@types/restaurantModel').operatingHoursResponse>}
      */
-    modifyOperatingHours: (operatingHoursId, info) => sql`UPDATE "operating_hours" SET ${sql(info)} WHERE opeatrating_hours_id=${operatingHoursId} RETURNING *`,
+    modifyOperatingHours: (restaurantId, operatingHoursId, info) =>
+        sql`UPDATE "operating_hours" SET ${sql(info)} WHERE operating_hours_id=${operatingHoursId} AND restaurant_id=${restaurantId} RETURNING *`,
 
     /**
      * Delete an entry from operating houres
-     * @param {number} id id of the entry to delete
+     * @param {number} restaurantId id of the restaurant of the operating hours
+     * @param {number[]} id id of the entry to delete
      * @returns {Promise<import('../@types/restaurantModel').operatingHoursResponse>}
      */
-    deleteOperatingHours: (id) => sql`DELETE FROM "operating_hours" WHERE operating_hours_id=${id} RETURNING *`,
+    deleteOperatingHours: (restaurantId, id) =>
+        sql`DELETE FROM "operating_hours" WHERE operating_hours_id IN (${id}) AND restaurant_id = ${restaurantId} RETURNING *`,
 };
