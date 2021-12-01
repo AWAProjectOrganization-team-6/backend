@@ -11,7 +11,7 @@ type product = {
 };
 
 type createProduct = Omit<product, 'product_id'>;
-type modifyProduct = Omit<product, 'product_id' | 'restaurant_id'>;
+type modifyProduct = Omit<product, 'restaurant_id'>;
 
 type specialOffer = {
     special_offer_id: number;

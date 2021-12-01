@@ -29,7 +29,7 @@ export const model = {
 
     /**
      * Creates new product in the database
-     * @param {import('../@types/productModel').createProduct} info product info struct
+     * @param {import('../@types/productModel').createProduct[]} info product info struct
      * @throws Error if the sql insert fails
      * @returns {Promise<import('../@types/productModel').productReponse>}
      */
@@ -37,19 +37,22 @@ export const model = {
 
     /**
      * Modify products information with the new info
+     * @param {number} restaurantId id of the restaurant of the product
      * @param {number} productId id of the product to modify
      * @param {import('../@types/productModel').modifyProduct} info product info struct without ids
      * @throws Error if the sql update fails
      * @returns {Promise<import('../@types/productModel').productReponse>}
      */
-    modifyProduct: (productId, info) => sql`UPDATE "product" SET ${sql(info)} WHERE product_id=${productId} RETURNING *`,
+    modifyProduct: (restaurantId, productId, info) =>
+        sql`UPDATE "product" SET ${sql(info)} WHERE product_id=${productId} and restaurant_id=${restaurantId} RETURNING *`,
 
     /**
      * Deletes a product from the database
-     * @param {number} id id of the product to delete
+     * @param {number} restaurantId id of the restaurant of the product
+     * @param {number[]} id id of the product to delete
      * @returns {Promise<import('../@types/productModel').productReponse}
      */
-    deleteProduct: (id) => sql`DELETE FROM "product" WHERE product_id=${id} RETURING *`,
+    deleteProduct: (restaurantId, id) => sql`DELETE FROM "product" WHERE product_id IN (${id}) AND restaurant_id=${restaurantId} RETURING *`,
 
     /**
      * Create new special offer for a product
