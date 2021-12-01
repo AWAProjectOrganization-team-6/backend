@@ -24,7 +24,7 @@ export const createUserJsonValidator = (req, res, next) => {
  * @type {import('express').RequestHandler}
  */
 export const modifyUserJsonValidator = (req, res, next) => {
-    const validationResult = modifyUserValidator(req.body.user);
+    const validationResult = modifyUserValidator(req.body);
     if (validationResult) return next();
     res.sendStatus(400);
 };
