@@ -24,6 +24,6 @@ app.use(passport.initialize());
 app.use('/login', login);
 app.use('/user', user);
 app.use('/restaurant', restaurant);
-app.use('/product', product);
+app.use('/products', product);
 
 module.exports = app;
