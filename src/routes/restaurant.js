@@ -8,6 +8,7 @@ import {
 } from '../middleware/restaurantMiddleware';
 import { model } from '../models/restaurantModel';
 import { model as menuModel } from '../models/productModel';
+import { upload } from '../middleware/upload';
 
 const router = _router();
 
@@ -56,6 +57,19 @@ router.post('/rate', authenticateJwt, async (req, res) => {
     // eslint-disable-next-line camelcase
     const [restaurant] = await model.modifyRestaurant(req.body.restaurant, { star_rating: req.body.rating });
     res.json(restaurant);
+});
+
+router.post('/upload', authenticateJwt, upload.array('image'), async (req, res) => {
+    /** @type {import('../@types/userModel').user} */
+    const user = req.user;
+    const restaurantId = parseInt(req.body.restaurant, 10);
+
+    if (user.type === 'USER') return res.sendStatus(403);
+    if (!req.files) return res.sendStatus(400);
+    if (restaurantId != req.body.restaurant) return res.sendStatus(400);
+
+    console.log(req.files);
+    res.sendStatus(202);
 });
 
 router.put('/', authenticateJwt, modifyRestaurantJsonValidator, async (req, res) => {
