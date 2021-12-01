@@ -26,11 +26,9 @@ router.post('/', authenticateJwt, createProductJsonValidator, async (req, res) =
         res.json(newProducts);
     } catch (err) {
         console.log(err);
-        res.sendStatus(400).json(err.message);
+        res.status(400).json(err.message);
     }
 });
-
-// dwdw dwd \/
 
 // DEBUG
 router.patch('/', authenticateJwt, modifyProductJsonValidator, async (req, res) => {
