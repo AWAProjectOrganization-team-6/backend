@@ -67,7 +67,7 @@ router.patch('/delete', authenticateJwt, async (req, res) => {
     if (!restaurant) return res.sendStatus(404);
     if (restaurant.user_id !== user.user_id) return res.sendStatus(403);
 
-    const result = await model.deleteProduct(restaurant.restaurant_id, req.body.operating_hours);
+    const result = await model.deleteProduct(restaurant.restaurant_id, req.body.products);
     res.json(result);
 });
 
