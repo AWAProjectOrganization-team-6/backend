@@ -33,7 +33,7 @@ export const model = {
      * @throws Error if the sql insert fails
      * @returns {Promise<import('../@types/productModel').productReponse>}
      */
-    createProduct: (info) => sql`INSERT INTO "porduct" ${sql(info)} RETURNING *`,
+    createProduct: (info) => sql`INSERT INTO "product" ${sql(info)} RETURNING *`,
 
     /**
      * Modify products information with the new info
