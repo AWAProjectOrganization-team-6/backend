@@ -52,7 +52,7 @@ export const model = {
      * @param {number[]} id id of the product to delete
      * @returns {Promise<import('../@types/productModel').productReponse}
      */
-    deleteProduct: (restaurantId, id) => sql`DELETE FROM "product" WHERE product_id IN (${id}) AND restaurant_id=${restaurantId} RETURING *`,
+    deleteProduct: (restaurantId, id) => sql`DELETE FROM "product" WHERE product_id IN (${id}) AND restaurant_id=${restaurantId} RETURNING *`,
 
     /**
      * Create new special offer for a product
@@ -60,7 +60,7 @@ export const model = {
      * @throws Error if the sql insert fails
      * @returns {Promise<import('../@types/productModel').specialOffer>}
      */
-    createSpecialOffer: (info) => sql`INSERT ONTO "special_offer" ${sql(info)} RETURING *`,
+    createSpecialOffer: (info) => sql`INSERT INTO "special_offer" ${sql(info)} RETURNING *`,
 
     /**
      * Modify special offer information with the new info
@@ -69,12 +69,12 @@ export const model = {
      * @throws Error if the sql update fails
      * @returns {Promise<import('../@types/productModel').specialOfferResponse>}
      */
-    modifySpecialOffer: (specialOfferId, info) => sql`UPDATE "special_offer" SET ${sql(info)} WHERE special_offer_id=${specialOfferId} RETURNING *`,
+    modifySpecialOffer: (specialOfferId, info) => sql`UPDATE "special_offer" SET ${sql(info)} WHERE offer_id=${specialOfferId} RETURNING *`,
 
     /**
      * Delete a special offer from the database
      * @param {number} id id of the special offer to delete
      * @returns {Promise<import('../@types/productModel').specialOfferResponse>}
      */
-    deleteSpecialOffer: (id) => sql`DELETE FROM "special_offer" WHERE special_offer_id=${id} RETURING *`,
+    deleteSpecialOffer: (id) => sql`DELETE FROM "special_offer" WHERE offer_id=${id} RETURNING *`,
 };

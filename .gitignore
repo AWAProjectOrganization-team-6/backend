@@ -65,3 +65,4 @@ dist-server
 
 # Miscellaneous
 .vscode
+tmp

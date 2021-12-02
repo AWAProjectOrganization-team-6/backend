@@ -1,18 +1,24 @@
 import { Router as _router } from 'express';
 import { authenticateJwt } from '../middleware/authenticate';
 import { createProductJsonValidator, modifyProductJsonValidator, specialOfferJsonValidator } from '../middleware/productMiddleware';
+import { upload } from '../middleware/upload';
 import { model } from '../models/productModel';
 import { model as restauratnModel } from '../models/restaurantModel';
 
 const router = _router();
 
 // Product routes \/
+/**
+ * Get all product in the database.
+ */
 router.get('/', async (req, res) => {
     const products = await model.getProducts();
     res.send(products);
 });
 
-// DEBUG
+/**
+ * Create new product/s for restaurant.
+ */
 router.post('/', authenticateJwt, createProductJsonValidator, async (req, res) => {
     /** @type {import('../@types/userModel').user} */
     const user = req.user;
@@ -31,6 +37,25 @@ router.post('/', authenticateJwt, createProductJsonValidator, async (req, res) =
 });
 
 // DEBUG
+/**
+ * @
+ */
+router.post('/upload', authenticateJwt, upload.array('productImages'), (req, res) => {
+    /** @type {import('../@types/userModel').user} */
+    const user = req.user;
+    const restaurantId = parseInt(req.body.restaurant, 10);
+
+    if (user.type === 'USER') return res.sendStatus(403);
+    if (!req.files) return res.sendStatus(400);
+    if (restaurantId != req.body.restaurant) return res.sendStatus(400);
+
+    console.log(req.files);
+    res.sendStatus(202);
+});
+
+/**
+ * Modify restaurants product/s.
+ */
 router.patch('/', authenticateJwt, modifyProductJsonValidator, async (req, res) => {
     /** @type {import('../@types/userModel').user} */
     const user = req.user;
@@ -55,7 +80,9 @@ router.patch('/', authenticateJwt, modifyProductJsonValidator, async (req, res) 
     }
 });
 
-// DEBUG
+/**
+ * Delete product/s from restaurant.
+ */
 router.patch('/delete', authenticateJwt, async (req, res) => {
     /** @type {import('../@types/userModel').user} */
     const user = req.user;
@@ -63,7 +90,7 @@ router.patch('/delete', authenticateJwt, async (req, res) => {
     if (typeof req.body.restaurant !== 'number') return res.sendStatus(400);
     if (!Array.isArray(req.body.products) || !req.body.products.every((val) => typeof val === 'number')) return res.sendStatus(400);
 
-    const [restaurant] = await model.getRestaurant(req.body.restaurant);
+    const [restaurant] = await restauratnModel.getRestaurant(req.body.restaurant);
     if (!restaurant) return res.sendStatus(404);
     if (restaurant.user_id !== user.user_id) return res.sendStatus(403);
 
@@ -72,12 +99,17 @@ router.patch('/delete', authenticateJwt, async (req, res) => {
 });
 
 // Speical offer routes \/
+/**
+ * Get all special offers
+ */
 router.get('/special-offers', async (req, res) => {
     const specialOffers = await model.getSpecialOffers();
     res.json(specialOffers);
 });
 
-// DEBUG
+/**
+ * Create special offer entry.
+ */
 router.post('/special-offers', authenticateJwt, specialOfferJsonValidator, async (req, res) => {
     /** @type {import('../@types/userModel').user} */
     const user = req.user;
@@ -93,7 +125,9 @@ router.post('/special-offers', authenticateJwt, specialOfferJsonValidator, async
     }
 });
 
-// DEBUG
+/**
+ * Modify sepcial offer entry.
+ */
 router.put('/special-offers/:id', authenticateJwt, specialOfferJsonValidator, async (req, res) => {
     /** @type {import('../@types/userModel').user} */
     const user = req.user;
@@ -112,7 +146,9 @@ router.put('/special-offers/:id', authenticateJwt, specialOfferJsonValidator, as
     }
 });
 
-// DEBUG
+/**
+ * Delete special offer entry.
+ */
 router.delete('/special-offers/:id', authenticateJwt, async (req, res) => {
     /** @type {import('../@types/userModel').user} */
     const user = req.user;
