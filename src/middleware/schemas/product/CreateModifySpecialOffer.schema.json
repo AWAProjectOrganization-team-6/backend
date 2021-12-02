@@ -1,0 +1,34 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://example.com/CreateModifySpecialOffer.schema.json",
+    "type": "object",
+    "title": "The root schema",
+    "description": "The root schema comprises the entire JSON document.",
+    "default": {},
+    "examples": [
+        {
+            "product_id": 1,
+            "percent_off": 0.5
+        }
+    ],
+    "required": ["product_id", "percent_off"],
+    "properties": {
+        "product_id": {
+            "$id": "#/properties/product_id",
+            "type": "integer",
+            "title": "The product_id schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": 0,
+            "examples": [1]
+        },
+        "percent_off": {
+            "$id": "#/properties/percent_off",
+            "type": "number",
+            "title": "The percent_off schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": 0.0,
+            "examples": [0.5]
+        }
+    },
+    "additionalProperties": false
+}

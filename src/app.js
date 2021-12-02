@@ -7,6 +7,7 @@ import cors from 'cors';
 import user from './routes/user';
 import login from './routes/login';
 import restaurant from './routes/restaurant';
+import product from './routes/product';
 import passport from 'passport';
 
 var app = express();
@@ -23,5 +24,6 @@ app.use(passport.initialize());
 app.use('/login', login);
 app.use('/user', user);
 app.use('/restaurant', restaurant);
+app.use('/products', product);
 
 module.exports = app;

@@ -52,6 +52,7 @@ router.get('/paymentInfo', async (req, res) => {
  * Create new user
  */
 router.post('/', createUserJsonValidator, async (req, res) => {
+    /** @type {import('../@types/userModel').createUserInfo} */
     const userInfo = req.body;
     userInfo.password = await getPaswordHash(userInfo.password);
 
@@ -71,7 +72,9 @@ router.post('/', createUserJsonValidator, async (req, res) => {
 router.put('/', authenticateJwt, modifyUserJsonValidator, async (req, res) => {
     /** @type {import('../@types/userModel').user} */
     const user = req.user;
-    const userInfo = req.body.user;
+
+    /** @type {import('../@types/userModel').modifyUserInfo} */
+    const userInfo = req.body;
     userInfo.password = await getPaswordHash(userInfo.password);
 
     try {

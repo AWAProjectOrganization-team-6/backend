@@ -1,7 +1,7 @@
 import Ajv from 'ajv';
-import createUserSchema from './schemas/CreateUser.schema.json';
-import modifyUserSchema from './schemas/ModifyUser.schema.json';
-import createPaymentInfoSchema from './schemas/CreatePaymentInfo.schema.json';
+import createUserSchema from './schemas/user/CreateUser.schema.json';
+import modifyUserSchema from './schemas/user/ModifyUser.schema.json';
+import createPaymentInfoSchema from './schemas/user/CreatePaymentInfo.schema.json';
 
 const ajv = new Ajv();
 

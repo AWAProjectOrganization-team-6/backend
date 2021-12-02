@@ -11,16 +11,16 @@ type product = {
 };
 
 type createProduct = Omit<product, 'product_id'>;
-type modifyProduct = Omit<product, 'product_id' | 'restaurant_id'>;
+type modifyProduct = Omit<product, 'restaurant_id'>;
 
 type specialOffer = {
-    special_offer_id: number;
+    offer_id: number;
     product_id: number;
     percent_off: number;
 };
 
-type createSpecialOffer = Omit<specialOffer, 'special_offer_id'>;
-type modifySpecialOffer = Omit<specialOffer, 'special_offer_id' | 'product_id'>;
+type createSpecialOffer = Omit<specialOffer, 'offer_id'>;
+type modifySpecialOffer = createSpecialOffer;
 
 type productReponse = response<product>;
 type specialOfferResponse = response<specialOffer>;

@@ -4,7 +4,7 @@ type user = {
     user_id: number;
     type: 'SUPER' | 'ADMIN' | 'USER';
     username: string;
-    password: Buffer;
+    password: Buffer | string;
     first_name: string;
     last_name: string;
     phone: string;

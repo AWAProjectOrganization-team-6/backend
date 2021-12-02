@@ -1,7 +1,7 @@
 import Ajv from 'ajv';
-import createModifyRestaurantSchema from './schemas/CreateModifyRestaurant.schema.json';
-import createOperatingHoursSchema from './schemas/CreateOperatingHours.schema.json';
-import modifyOperatingHoursSchema from './schemas/ModifyOperatingHours.schema.json';
+import createModifyRestaurantSchema from './schemas/restaurant/CreateModifyRestaurant.schema.json';
+import createOperatingHoursSchema from './schemas/restaurant/CreateOperatingHours.schema.json';
+import modifyOperatingHoursSchema from './schemas/restaurant/ModifyOperatingHours.schema.json';
 
 const ajv = new Ajv();
 
