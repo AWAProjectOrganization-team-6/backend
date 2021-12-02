@@ -46,8 +46,10 @@ router.get('/', authenticateJwt, async (req, res) => {
  * Create new user
  */
 router.post('/', createUserJsonValidator, async (req, res) => {
+    /** @type {import('../@types/userModel').createUserInfo} */
     const userInfo = req.body;
     userInfo.password = await getPaswordHash(userInfo.password);
+
     try {
         var [newUser] = await model.createUser(userInfo);
         newUser.password = newUser.password.toString();
@@ -62,8 +64,10 @@ router.post('/', createUserJsonValidator, async (req, res) => {
  * Edit user information
  */
 router.put('/', authenticateJwt, modifyUserJsonValidator, async (req, res) => {
+    /** @type {import('../@types/userModel').modifyUserInfo} */
     const userInfo = req.body.user;
     userInfo.password = await getPaswordHash(userInfo.password);
+
     try {
         var [editedUser] = await model.modifyUser(req.body.userId, userInfo);
         res.json(editedUser);

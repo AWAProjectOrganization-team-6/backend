@@ -54,9 +54,14 @@ router.post('/rate', authenticateJwt, async (req, res) => {
     if (typeof req.body.rating !== 'number') return res.sendStatus(400);
     if (typeof req.body.restaurant !== 'number') return res.sendStatus(400);
 
-    // eslint-disable-next-line camelcase
-    const [restaurant] = await model.modifyRestaurant(req.body.restaurant, { star_rating: req.body.rating });
-    res.json(restaurant);
+    try {
+        // eslint-disable-next-line camelcase
+        const [restaurant] = await model.modifyRestaurant(req.body.restaurant, { star_rating: req.body.rating });
+        res.json(restaurant);
+    } catch (err) {
+        console.log(err);
+        res.status(400).json(err.message);
+    }
 });
 
 router.post('/upload', authenticateJwt, upload.array('image'), async (req, res) => {
@@ -80,8 +85,13 @@ router.put('/', authenticateJwt, modifyRestaurantJsonValidator, async (req, res)
     if (!restaurant) return res.sendStatus(404);
     if (restaurant.user_id !== user.user_id) return res.sendStatus(403);
 
-    [restaurant] = await model.modifyRestaurant(req.body.restaurant, req.body.info);
-    res.json(restaurant);
+    try {
+        [restaurant] = await model.modifyRestaurant(req.body.restaurant, req.body.info);
+        res.json(restaurant);
+    } catch (err) {
+        console.log(err);
+        res.status(400).json(err.message);
+    }
 });
 
 // TODO: Add json verification as json schema
@@ -103,6 +113,7 @@ router.delete('/:id', authenticateJwt, async (req, res) => {
 router.get('/:id/operating-hours', async (req, res) => {
     const restaurantId = parseInt(req.params.id, 10);
     if (restaurantId != req.params.id) return res.sendStatus(400);
+
     const operatingHours = await model.getOpearatingHours(restaurantId);
     res.json(operatingHours);
 });
@@ -145,7 +156,7 @@ router.patch('/operating-hours', authenticateJwt, modifyOpHoursJsonValidator, as
         res.json((await Promise.all(result)).flat());
     } catch (err) {
         console.log(err);
-        res.status(400).json(err);
+        res.status(400).json(err.message);
     }
 });
 
