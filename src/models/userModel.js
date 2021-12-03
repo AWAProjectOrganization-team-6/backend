@@ -81,7 +81,7 @@ export const model = {
      * @throws Error if the sql insert fails
      * @returns {Promise<import('../@types/userModel').addressResponse>}
      */
-    createAddress: (info) => sql`INSERT INTO "address" ${info} RETURNING *`,
+    createAddress: (info) => sql`INSERT INTO "address" ${sql(info)} RETURNING *`,
 
     /**
      * Deletes the users address from the database

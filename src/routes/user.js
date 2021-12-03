@@ -72,7 +72,6 @@ router.put('/@me', authenticateJwt, modifyUserJsonValidator, async (req, res) =>
     }
 });
 
-// DEBUG
 /**
  * Delete current user
  */
@@ -96,7 +95,6 @@ router.get('/@me/address', authenticateJwt, async (req, res) => {
     res.json(addresses);
 });
 
-// DEBUG
 /**
  * Add new addres for the user
  */
