@@ -145,7 +145,7 @@
         "no-useless-return": "warn",
         "no-var": "off",
         "no-void": "warn",
-        "no-warning-comments": "warn",
+        "no-warning-comments": ["warn", { "terms": ["todo", "debug", "fix"] }],
         "no-with": "warn",
         "object-shorthand": "warn",
         "one-var": "off",

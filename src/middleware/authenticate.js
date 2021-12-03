@@ -8,6 +8,7 @@ import { sign } from 'jsonwebtoken';
 // TODO: Add secret key generation
 const jwtSecret = 'Add_secret_key_later';
 
+// TODO: Add more commenting
 passport.use(
     new BasicStrategy(async (username, password, done) => {
         const [user] = await model.getUserCredentials(username);

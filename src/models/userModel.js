@@ -33,7 +33,7 @@ export const model = {
      * @param {string} usernmae users login username
      * @returns {Promise<import('../@types/userModel').userCredentialsResponse>}
      */
-    getUserCredentials: (usernmae) => sql`SELECT user_id, username, password FROM "user" WHERE username=${usernmae}`,
+    getUserCredentials: (usernmae) => sql`SELECT user_id, username, password, type FROM "user" WHERE username=${usernmae}`,
 
     /**
      * Create new user with the given user info
@@ -69,10 +69,11 @@ export const model = {
 
     /**
      * Deletes the users saved payment information from the database
-     * @param {number} id the id number of the users payment info to delete
+     * @param {number} userId id of the user
+     * @param {number} id id of the payment info to delete
      * @returns {Promise<import('../@types/userModel').paymentInfoResponse>}
      */
-    deletePaymentInfo: (id) => sql`DELETE FROM "payment_information" WHERE payment_information_id=${id} RETURNING *`,
+    deletePaymentInfo: (userId, id) => sql`DELETE FROM "payment_information" WHERE payment_information_id=${id} AND user_id=${userId} RETURNING *`,
 
     /**
      * Creates new entry for the users addresses
@@ -87,5 +88,5 @@ export const model = {
      * @param {number} id address information id
      * @returns {Promise<import('../@types/userModel').addressResponse>}
      */
-    deleteAddress: (id) => sql`DELETE FROM "address" WHERE address_id=${id} RETURNING *`,
+    deleteAddress: (userId, id) => sql`DELETE FROM "address" WHERE address_id=${id} AND user_id=${userId} RETURNING *`,
 };

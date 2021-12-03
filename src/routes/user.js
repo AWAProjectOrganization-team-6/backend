@@ -1,51 +1,35 @@
 import { Router as _router } from 'express';
-import { createUserJsonValidator, modifyUserJsonValidator } from '../middleware/userMiddlewares';
+import { createAddressJsonValidator, createPaymentInfoJsonValidator, createUserJsonValidator, modifyUserJsonValidator } from '../middleware/userMiddlewares';
 import { authenticateBasic, authenticateJwt, getPaswordHash, getToken } from '../middleware/authenticate';
 import { model } from '../models/userModel';
 
 const router = _router();
 
+// User route \/
 /**
  * Get single user with jwt
  */
-router.get('/', authenticateJwt, (req, res) => {
+router.get('/@me', authenticateJwt, (req, res) => {
     /** @type {import('../@types/userModel').user} */
     const user = req.user;
     delete user.password;
-    res.status(200).json(user);
+    res.json(user);
 });
 
 /**
- * Get all users from database
+ * Get all user's from database
  */
 router.get('/all', authenticateBasic, async (req, res) => {
+    /** @type {import('../@types/userModel').userCredentials} */
+    const user = req.user;
+
+    if (user.type !== 'SUPER') return res.sendStatus(403);
+
     var dbResult = await model.getUsers();
     dbResult.forEach((user) => {
         user.password = user.password.toString();
     });
-    res.status(200).json(dbResult);
-});
-
-/**
- * Get users addresses with jwt
- */
-router.get('/address', authenticateJwt, async (req, res) => {
-    /** @type {import('../@types/userModel').user} */
-    const user = req.user;
-
-    var [addresses] = await model.getUserAddresses(user.user_id);
-    res.status(200).json(addresses);
-});
-
-/**
- * Get users payment information with jwt
- */
-router.get('/paymentInfo', async (req, res) => {
-    /** @type {import('../@types/userModel').user} */
-    const user = req.user;
-
-    var paymentInfos = await model.getUserPaymentInfo(user.user_id);
-    res.status(200).json(paymentInfos);
+    res.json(dbResult);
 });
 
 /**
@@ -67,11 +51,13 @@ router.post('/', createUserJsonValidator, async (req, res) => {
 });
 
 /**
- * Edit user information
+ * Edit current user's information
  */
-router.put('/', authenticateJwt, modifyUserJsonValidator, async (req, res) => {
+router.put('/@me', authenticateJwt, modifyUserJsonValidator, async (req, res) => {
     /** @type {import('../@types/userModel').user} */
     const user = req.user;
+
+    if (user.type === 'SUPER') return res.sendStatus(403);
 
     /** @type {import('../@types/userModel').modifyUserInfo} */
     const userInfo = req.body;
@@ -84,6 +70,115 @@ router.put('/', authenticateJwt, modifyUserJsonValidator, async (req, res) => {
         console.log(err);
         res.status(400).json(err.message);
     }
+});
+
+// DEBUG
+/**
+ * Delete current user
+ */
+router.delete('/@me', authenticateJwt, (req, res) => {
+    /** @type {import('../@types/userModel').user} */
+    const user = req.user;
+
+    model.deleteUser(user.user_id);
+    res.send('User account deleted');
+});
+
+// User address route \/
+/**
+ * Get user's addresses with jwt
+ */
+router.get('/@me/address', authenticateJwt, async (req, res) => {
+    /** @type {import('../@types/userModel').user} */
+    const user = req.user;
+
+    var [addresses] = await model.getUserAddresses(user.user_id);
+    res.json(addresses);
+});
+
+// DEBUG
+/**
+ * Add new addres for the user
+ */
+router.post('/@me/address', authenticateJwt, createAddressJsonValidator, async (req, res) => {
+    /** @type {import('../@types/userModel').user} */
+    const user = req.user;
+
+    /** @type {import('../@types/userModel').createAddressInfo} */
+    const addressInfo = req.body;
+    // eslint-disable-next-line
+    addressInfo.user_id = user.user_id;
+
+    try {
+        const [newAddress] = await model.createAddress(req.body);
+        res.json(newAddress);
+    } catch (err) {
+        console.log(err);
+        res.status(400).json(err.message);
+    }
+});
+
+// DEBUG
+/**
+ * Delete user's address
+ */
+router.delete('/@me/addresse/:id', authenticateJwt, async (req, res) => {
+    /** @type {import('../@types/userModel').user} */
+    const user = req.user;
+    const id = parseInt(req.params.id, 10);
+
+    if (id != req.params.id) return res.sendStatus(400);
+
+    const [result] = await model.deleteAddress(user.user_id, id);
+    res.json(result);
+});
+
+// User payment info route \/
+/**
+ * Get user's payment information with jwt
+ */
+router.get('/@me/payment-info', async (req, res) => {
+    /** @type {import('../@types/userModel').user} */
+    const user = req.user;
+
+    var paymentInfos = await model.getUserPaymentInfo(user.user_id);
+    res.json(paymentInfos);
+});
+
+// DEBUG
+/**
+ * Create payment information to for user
+ */
+router.post('/@me/payment-info', authenticateJwt, createPaymentInfoJsonValidator, async (req, res) => {
+    /** @type {import('../@types/userModel').user} */
+    const user = req.user;
+
+    /** @type {import('../@types/userModel').createPaymentInfo} */
+    const paymentInfo = req.body;
+    // eslint-disable-next-line camelcase
+    paymentInfo.user_id = user.user_id;
+
+    try {
+        const [result] = await model.createPaymentInfo(paymentInfo);
+        res.json(result);
+    } catch (err) {
+        res.status(400).json(err.message);
+    }
+});
+
+// DEBUG
+/**
+ * Delete user's payment information
+ */
+router.delete('/@me/payment-info/:id', authenticateJwt, (req, res) => {
+    /** @type {import('../@types/userModel').user} */
+    const user = req.user;
+    const id = parseInt(req.params.id, 10);
+
+    if (id != req.params.id) res.sendStatus(400);
+
+    const [result] = model.deletePaymentInfo(user.user_id, id);
+    res.json(result);
 });
 
 export default router;

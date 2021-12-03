@@ -12,8 +12,8 @@
             "type": "ADMIN",
             "first_name": "name",
             "last_name": "name",
-            "phone": "phone mun",
-            "email": "email@email.com"
+            "phone": "+358 446781020",
+            "email": "user@example.com"
         }
     ],
     "required": ["username", "password", "type", "first_name", "last_name", "phone", "email"],
@@ -57,7 +57,7 @@
         "phone": {
             "$id": "#/properties/phone",
             "default": "",
-            "examples": ["phone mun"],
+            "examples": ["+358 446781020"],
             "title": "Users phone number",
             "type": "string",
             "maxLength": 15
@@ -65,7 +65,7 @@
         "email": {
             "$id": "#/properties/email",
             "default": "",
-            "examples": ["email@email.com"],
+            "examples": ["user@example.com"],
             "title": "Users email address",
             "type": "string"
         }
