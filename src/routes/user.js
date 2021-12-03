@@ -163,18 +163,17 @@ router.post('/@me/payment-info', authenticateJwt, createPaymentInfoJsonValidator
     }
 });
 
-// DEBUG
 /**
  * Delete user's payment information
  */
-router.delete('/@me/payment-info/:id', authenticateJwt, (req, res) => {
+router.delete('/@me/payment-info/:id', authenticateJwt, async (req, res) => {
     /** @type {import('../@types/userModel').user} */
     const user = req.user;
     const id = parseInt(req.params.id, 10);
 
     if (id != req.params.id) res.sendStatus(400);
 
-    const [result] = model.deletePaymentInfo(user.user_id, id);
+    const [result] = await model.deletePaymentInfo(user.user_id, id);
     res.json(result);
 });
 
