@@ -36,9 +36,9 @@ router.post('/', authenticateJwt, createProductJsonValidator, async (req, res) =
     }
 });
 
-// DEBUG
 /**
- * @
+ * Add images to products
+ * @link https://github.com/AWAProjectOrganization-team-6/backend/wiki/Product#upload-product-images
  */
 router.post('/upload', authenticateJwt, upload.array('productImages'), (req, res) => {
     /** @type {import('../@types/userModel').user} */
@@ -142,7 +142,7 @@ router.put('/special-offers/:id', authenticateJwt, specialOfferJsonValidator, as
         res.json(edit);
     } catch (err) {
         console.log(err);
-        res.status(400).json(err);
+        res.status(400).json(err.message);
     }
 });
 

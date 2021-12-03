@@ -5,7 +5,6 @@
     "description": "The root schema comprises the entire JSON document.",
     "examples": [
         {
-            "user_id": 1,
             "type": "card",
             "card_num": "num",
             "cvv": "123",
@@ -17,17 +16,10 @@
             "postcode": "12345"
         }
     ],
-    "required": ["user_id", "type"],
+    "required": ["type"],
     "title": "The root schema",
     "type": "object",
     "properties": {
-        "user_id": {
-            "$id": "#/properties/user_id",
-            "default": 0,
-            "examples": [1],
-            "title": "User account id",
-            "type": "integer"
-        },
         "type": {
             "$id": "#/properties/type",
             "default": "",

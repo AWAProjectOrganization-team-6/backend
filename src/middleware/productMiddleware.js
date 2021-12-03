@@ -10,6 +10,7 @@ const modifyProductValidator = ajv.compile(modifyProductSchema);
 const specialOfferValidator = ajv.compile(specialOfferSchema);
 
 /**
+ * Validator for validating product creation json.
  * @type {import('express').RequestHandler}
  */
 export const createProductJsonValidator = (req, res, next) => {
@@ -19,6 +20,7 @@ export const createProductJsonValidator = (req, res, next) => {
 };
 
 /**
+ * Validator for validating product modification json.
  * @type {import('express').RequestHandler}
  */
 export const modifyProductJsonValidator = (req, res, next) => {
@@ -28,6 +30,7 @@ export const modifyProductJsonValidator = (req, res, next) => {
 };
 
 /**
+ * Validator for validating special offer creation/modification json.
  * @type {import('express').RequestHandler}
  */
 export const specialOfferJsonValidator = (req, res, next) => {

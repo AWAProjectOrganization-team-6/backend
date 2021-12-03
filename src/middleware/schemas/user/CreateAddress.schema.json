@@ -1,0 +1,45 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://example.com/CreateAddress.schema.json",
+    "type": "object",
+    "title": "The root schema",
+    "description": "The root schema comprises the entire JSON document.",
+    "default": {},
+    "examples": [
+        {
+            "street_address": "Haukitie 200 A 15",
+            "city": "Oulu",
+            "postcode": "91810"
+        }
+    ],
+    "required": ["street_address", "city", "postcode"],
+    "properties": {
+        "street_address": {
+            "$id": "#/properties/street_address",
+            "type": "string",
+            "title": "The street_address schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": ["Haukitie 200 A 15"]
+        },
+        "city": {
+            "$id": "#/properties/city",
+            "type": "string",
+            "title": "The city schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": ["Oulu"]
+        },
+        "postcode": {
+            "$id": "#/properties/postcode",
+            "default": "",
+            "description": "An explanation about the purpose of this instance.",
+            "examples": ["91810"],
+            "title": "The postcode schema",
+            "maxLength": 5,
+            "minLength": 5,
+            "type": "string"
+        }
+    },
+    "additionalProperties": false
+}

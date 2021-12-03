@@ -22,7 +22,7 @@ app.use(cors());
 app.use(passport.initialize());
 
 app.use('/login', login);
-app.use('/user', user);
+app.use('/users', user);
 app.use('/restaurant', restaurant);
 app.use('/products', product);
 

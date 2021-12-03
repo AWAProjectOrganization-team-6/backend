@@ -1,6 +1,5 @@
 import { Router as _router } from 'express';
-import { sign } from 'jsonwebtoken';
-import { authenticateBasic } from '../middleware/authenticate';
+import { authenticateBasic, getToken } from '../middleware/authenticate';
 
 const router = _router();
 
@@ -8,11 +7,12 @@ const router = _router();
  * User login route
  */
 router.post('/', authenticateBasic, (req, res) => {
-    /** @type {import('../@types/userModel').user} */
+    /** @type {import('../@types/userModel').userCredentials} */
     const user = req.user;
     user.password = user.password.toString();
+
     console.log(user);
-    const token = sign({ userId: req.user.user_id }, 'Secret_key', { expiresIn: 600 });
+    const token = getToken(user);
     res.json({ token });
 });
 

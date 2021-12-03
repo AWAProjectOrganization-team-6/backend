@@ -11,7 +11,7 @@ type user = {
     email: string;
 };
 
-type userCredentials = Omit<user, 'type' | 'first_name' | 'last_name' | 'email' | 'phone'>;
+type userCredentials = Omit<user, 'first_name' | 'last_name' | 'email' | 'phone'>;
 type createUserInfo = Omit<user, 'user_id'> & { type: 'ADMIN' | 'USER' };
 type modifyUserInfo = Omit<user, 'user_id' | 'type' | 'username'>;
 
@@ -29,14 +29,14 @@ type paymentInformation = {
     payment_information_id: number;
     user_id: number;
     type: string;
-    card_num: string;
-    ccv: string;
-    expiration_date: string;
-    street_address: string;
-    city: string;
-    postcode: string;
-    first_name: string;
-    last_name: string;
+    card_num?: string;
+    ccv?: string;
+    expiration_date?: string;
+    street_address?: string;
+    city?: string;
+    postcode?: string;
+    first_name?: string;
+    last_name?: string;
 };
 
 type createPaymentInfo = Omit<paymentInformation, 'payment_information_id'>;
