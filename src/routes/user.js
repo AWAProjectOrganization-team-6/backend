@@ -134,7 +134,7 @@ router.delete('/@me/address/:id', authenticateJwt, async (req, res) => {
 /**
  * Get user's payment information with jwt
  */
-router.get('/@me/payment-info', async (req, res) => {
+router.get('/@me/payment-info', authenticateJwt, async (req, res) => {
     /** @type {import('../@types/userModel').user} */
     const user = req.user;
 
@@ -142,7 +142,6 @@ router.get('/@me/payment-info', async (req, res) => {
     res.json(paymentInfos);
 });
 
-// DEBUG
 /**
  * Create payment information to for user
  */
