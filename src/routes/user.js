@@ -72,7 +72,6 @@ router.put('/@me', authenticateJwt, modifyUserJsonValidator, async (req, res) =>
     }
 });
 
-// DEBUG
 /**
  * Delete current user
  */
@@ -96,7 +95,6 @@ router.get('/@me/address', authenticateJwt, async (req, res) => {
     res.json(addresses);
 });
 
-// DEBUG
 /**
  * Add new addres for the user
  */
@@ -118,11 +116,10 @@ router.post('/@me/address', authenticateJwt, createAddressJsonValidator, async (
     }
 });
 
-// DEBUG
 /**
  * Delete user's address
  */
-router.delete('/@me/addresse/:id', authenticateJwt, async (req, res) => {
+router.delete('/@me/address/:id', authenticateJwt, async (req, res) => {
     /** @type {import('../@types/userModel').user} */
     const user = req.user;
     const id = parseInt(req.params.id, 10);
