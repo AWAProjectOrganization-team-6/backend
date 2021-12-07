@@ -7,5 +7,7 @@
                 "corejs": 3
             }
         ]
-    ]
+    ],
+    "sourceMaps": "both",
+    "plugins": ["source-map-support"]
 }

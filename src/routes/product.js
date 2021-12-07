@@ -23,8 +23,9 @@ router.post('/', authenticateJwt, createProductJsonValidator, async (req, res) =
     /** @type {import('../@types/userModel').user} */
     const user = req.user;
 
+    if (req.body.length === 0) return res.status(400).send('Bad request: Empty array');
     const [restaurant] = await restauratnModel.getRestaurant(req.body[0].restaurant_id);
-    if (!restaurant) return res.sendStatus(404);
+    if (!restaurant) return res.status(404).send('Not found: Retaurant was not found in database');
     if (restaurant.user_id !== user.user_id) return res.sendStatus(403);
 
     try {
@@ -80,6 +81,7 @@ router.patch('/', authenticateJwt, modifyProductJsonValidator, async (req, res) 
     }
 });
 
+// TODO: Add json verification as json schema
 /**
  * Delete product/s from restaurant.
  */
