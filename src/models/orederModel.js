@@ -33,7 +33,7 @@ export const model = {
      * @param {number} orderId order id for which to get product list
      * @returns {Promise<import('../@types/orderModel').orderProductResponse>}
      */
-    getOrderProducts: (orderId) => sql`SELECT * FROM "order_product" WHERE order_id=${orderId}`,
+    getOrderProducts: (orderId) => sql`SELECT p.* FROM "product" p JOIN "order_product" o ON (p.product_id = o.product_id) WHERE order_id=${orderId}`,
 
     /**
      * Create a new order whith the given information

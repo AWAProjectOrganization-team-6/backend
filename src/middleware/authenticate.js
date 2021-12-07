@@ -64,4 +64,4 @@ export const getPaswordHash = (passowrd) => hash(passowrd, { parallelism: 4, mem
  * @param {import('../@types/userModel').user | import('../@types/userModel').userCredentials} user user for witch to create the token
  * @returns
  */
-export const getToken = (user) => sign({ userId: user.user_id }, jwtSecret, { expiresIn: 600 });
+export const getToken = (user) => sign({ userId: user.user_id }, jwtSecret, { expiresIn: 1800 });
