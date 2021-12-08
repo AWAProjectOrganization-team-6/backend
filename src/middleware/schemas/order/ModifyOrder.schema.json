@@ -1,0 +1,43 @@
+{
+    "$id": "http://example.com/ModifyOrder.schema.json",
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "default": {},
+    "description": "The root schema comprises the entire JSON document.",
+    "examples": [
+        {
+            "orderId": 1,
+            "status": "IN PROGRESS",
+            "ready_time": "1/1/2021 18:30 +2"
+        }
+    ],
+    "required": ["orderId"],
+    "title": "The root schema",
+    "type": "object",
+    "properties": {
+        "orderId": {
+            "$id": "#/properties/orderId",
+            "type": "integer",
+            "title": "The orderId schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": 0,
+            "examples": [1]
+        },
+        "status": {
+            "$id": "#/properties/status",
+            "type": "string",
+            "title": "The status schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": ["IN PROGRESS"]
+        },
+        "ready_time": {
+            "$id": "#/properties/ready_time",
+            "type": "string",
+            "title": "The ready_time schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": ["1/1/2021 18:30 +2"]
+        }
+    },
+    "additionalProperties": false
+}

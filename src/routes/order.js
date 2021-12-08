@@ -2,7 +2,7 @@ import { Router as _router } from 'express';
 import { model } from '../models/orederModel';
 import { model as restaurantModel } from '../models/restaurantModel';
 import { authenticateJwt } from '../middleware/authenticate';
-import { createOrderJsonValidator } from '../middleware/orderMiddleware';
+import { createOrderJsonValidator, modifyOrderJsonValidator } from '../middleware/orderMiddleware';
 
 const router = _router();
 
@@ -78,7 +78,7 @@ router.post('/', authenticateJwt, createOrderJsonValidator, async (req, res) => 
     res.json(order);
 });
 
-router.patch('/updateStatus', authenticateJwt, async (req, res) => {
+router.patch('/update', authenticateJwt, modifyOrderJsonValidator, async (req, res) => {
     /** @type {import('../@types/userModel').user} */
     const user = req.user;
     const orderId = req.body.orderId;
