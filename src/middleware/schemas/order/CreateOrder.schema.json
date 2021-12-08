@@ -7,23 +7,12 @@
     "default": {},
     "examples": [
         {
-            "user_id": 1,
             "restaurant_id": 2,
-            "status": "IN PROGRESS",
-            "ready_time": "1/1/2021 18:30 +2",
             "products": [1, 2, 3, 4, 5, 6, 7]
         }
     ],
-    "required": ["user_id", "restaurant_id", "status", "ready_time", "products"],
+    "required": ["restaurant_id", "products"],
     "properties": {
-        "user_id": {
-            "$id": "#/properties/user_id",
-            "type": "integer",
-            "title": "The user_id schema",
-            "description": "An explanation about the purpose of this instance.",
-            "default": 0,
-            "examples": [1]
-        },
         "restaurant_id": {
             "$id": "#/properties/restaurant_id",
             "type": "integer",
@@ -31,22 +20,6 @@
             "description": "An explanation about the purpose of this instance.",
             "default": 0,
             "examples": [2]
-        },
-        "status": {
-            "$id": "#/properties/status",
-            "type": "string",
-            "title": "The status schema",
-            "description": "An explanation about the purpose of this instance.",
-            "default": "",
-            "examples": ["IN PROGRESS"]
-        },
-        "ready_time": {
-            "$id": "#/properties/ready_time",
-            "type": "string",
-            "title": "The ready_time schema",
-            "description": "An explanation about the purpose of this instance.",
-            "default": "",
-            "examples": ["1/1/2021 18:30 +2"]
         },
         "products": {
             "$id": "#/properties/products",
