@@ -65,17 +65,29 @@ router.post('/', authenticateJwt, createOrderJsonValidator, async (req, res) => 
     /** @type {any[]} */
     const products = req.body.products;
     delete req.body.products;
+    // eslint-disable-next-line camelcase
+    req.body.user_id = user.user_id;
 
-    const [order] = await model.createOrder(req.body);
+    try {
+        const [order] = await model.createOrder(req.body);
 
-    for (let item of products) {
-        // eslint-disable-next-line camelcase
-        item = { order_id: order.order_id, product_id: item };
+        try {
+            for (const key in products) {
+                // eslint-disable-next-line camelcase
+                products[key] = { order_id: order.order_id, product_id: products[key] };
+            }
+
+            const orderProducts = await model.createOrderProduct(products);
+            order.products = orderProducts;
+            res.json(order);
+        } catch (err) {
+            console.log(2, err);
+            res.sendStatus(500);
+        }
+    } catch (err) {
+        console.log(1, err);
+        res.status(400).json(err.message);
     }
-
-    const orderProducts = await model.createOrderProduct(products);
-    order.products = orderProducts;
-    res.json(order);
 });
 
 router.patch('/update', authenticateJwt, modifyOrderJsonValidator, async (req, res) => {
