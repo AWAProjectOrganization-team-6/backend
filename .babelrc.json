@@ -8,6 +8,10 @@
             }
         ]
     ],
-    "sourceMaps": "both",
-    "plugins": ["source-map-support"]
+    "env": {
+        "development": {
+            "sourceMaps": "both",
+            "plugins": ["source-map-support"]
+        }
+    }
 }
