@@ -1,0 +1,47 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://example.com/CreateOrder.schema.json",
+    "type": "object",
+    "title": "The root schema",
+    "description": "The root schema comprises the entire JSON document.",
+    "default": {},
+    "examples": [
+        {
+            "restaurant_id": 2,
+            "products": [1, 2, 3, 4, 5, 6, 7]
+        }
+    ],
+    "required": ["restaurant_id", "products"],
+    "properties": {
+        "restaurant_id": {
+            "$id": "#/properties/restaurant_id",
+            "type": "integer",
+            "title": "The restaurant_id schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": 0,
+            "examples": [2]
+        },
+        "products": {
+            "$id": "#/properties/products",
+            "type": "array",
+            "title": "The products schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": [],
+            "examples": [[1, 2]],
+            "items": {
+                "$id": "#/properties/products/items",
+                "anyOf": [
+                    {
+                        "$id": "#/properties/products/items/anyOf/0",
+                        "type": "integer",
+                        "title": "The first anyOf schema",
+                        "description": "An explanation about the purpose of this instance.",
+                        "default": 0,
+                        "examples": [1, 2]
+                    }
+                ]
+            }
+        }
+    },
+    "additionalProperties": false
+}

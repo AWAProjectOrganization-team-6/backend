@@ -8,6 +8,7 @@ import user from './routes/user';
 import login from './routes/login';
 import restaurant from './routes/restaurant';
 import product from './routes/product';
+import order from './routes/order';
 import passport from 'passport';
 
 var app = express();
@@ -25,5 +26,6 @@ app.use('/login', login);
 app.use('/users', user);
 app.use('/restaurant', restaurant);
 app.use('/products', product);
+app.use('/orders', order);
 
 module.exports = app;

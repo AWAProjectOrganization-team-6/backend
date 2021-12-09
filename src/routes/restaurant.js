@@ -37,7 +37,7 @@ router.post('/', authenticateJwt, createRestaurantJsonValidator, async (req, res
     if (user.type === 'USER') return res.sendStatus(403);
 
     try {
-        // eslint-disable-next-line
+        // eslint-disable-next-line camelcase
         restaurant.user_id = user.user_id;
         const [newRestaurant] = await model.createRestaurant(restaurant);
         res.json(newRestaurant);

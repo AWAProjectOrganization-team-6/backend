@@ -91,7 +91,7 @@ router.get('/@me/address', authenticateJwt, async (req, res) => {
     /** @type {import('../@types/userModel').user} */
     const user = req.user;
 
-    var [addresses] = await model.getUserAddresses(user.user_id);
+    var addresses = await model.getUserAddresses(user.user_id);
     res.json(addresses);
 });
 
@@ -104,7 +104,7 @@ router.post('/@me/address', authenticateJwt, createAddressJsonValidator, async (
 
     /** @type {import('../@types/userModel').createAddressInfo} */
     const addressInfo = req.body;
-    // eslint-disable-next-line
+    // eslint-disable-next-line camelcase
     addressInfo.user_id = user.user_id;
 
     try {
