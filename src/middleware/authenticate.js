@@ -13,16 +13,6 @@ passport.use(
     new BasicStrategy(async (username, password, done) => {
         const [user] = await model.getUserCredentials(username);
 
-        // TODO: Remove password conversion before production
-        if (!user.password.toString().startsWith('$argon2') || user.password.toString().search(/\$m=4096/u) !== -1) {
-            console.log('Set new password');
-
-            // user.password = await hash('default'); // Test 1
-            user.password = await hash('default', { parallelism: 4, memoryCost: 2 ** 17, timeCost: 10 });
-            model.modifyUser(user.user_id, { password: user.password });
-            return done(null, user);
-        }
-
         try {
             if (await verify(user.password.toString(), password)) {
                 done(null, user);
