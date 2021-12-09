@@ -23,7 +23,7 @@ router.get('/all', authenticateBasic, async (req, res) => {
     /** @type {import('../@types/userModel').userCredentials} */
     const user = req.user;
 
-    if (user.type !== 'SUPER') return res.sendStatus(403);
+    if (user.type !== 'SUPER') return res.sendStatus(401);
 
     var dbResult = await model.getUsers();
     dbResult.forEach((user) => {

@@ -2,7 +2,7 @@ import postgres from 'postgres';
 
 let _sql;
 
-if (process.env.DATABASE_URL) _sql = postgres(process.env.DATABASE_URL);
+if (process.env.DATABASE_URL) _sql = postgres(process.env.DATABASE_URL, { ssl: { rejectUnauthorized: false } });
 else
     _sql = postgres({
         host: 'localhost',
