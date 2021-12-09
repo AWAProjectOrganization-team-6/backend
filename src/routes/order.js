@@ -113,8 +113,9 @@ router.post('/received/:id', authenticateJwt, async (req, res) => {
     const orderId = parseInt(req.params.id, 10);
 
     if (user.type !== 'USER') return res.sendStatus(403);
-    if (orderId !== req.params.id) return res.sendStatus(400);
+    if (orderId != req.params.id) return res.sendStatus(400);
     const [order] = await model.getOrder(orderId);
+    if (!order) return res.sendStatus(404);
     if (order.user_id !== user.user_id) res.sendStatus(403);
 
     const [modifyedOrder] = await model.modifyOrder(order.order_id, { status: 'RECEIVED' });
@@ -127,8 +128,9 @@ router.delete('/:id', authenticateJwt, async (req, res) => {
     const orderId = parseInt(req.params.id, 10);
 
     if (user.type !== 'USER') res.sendStatus(403);
-    if (orderId !== req.params.id) return res.sendStatus(400);
+    if (orderId != req.params.id) return res.sendStatus(400);
     const [order] = await model.getOrder(orderId);
+    if (!order) return res.sendStatus(404);
     if (order.user_id !== user.user_id) return res.sendStatus(403);
 
     const [result] = await model.deleteOrder(order.order_id);
