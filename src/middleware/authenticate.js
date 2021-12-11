@@ -5,10 +5,11 @@ import { ExtractJwt, Strategy as JwtStategy } from 'passport-jwt';
 import { hash, verify } from 'argon2';
 import { sign } from 'jsonwebtoken';
 
-// TODO: Add secret key generation
-const jwtSecret = 'Add_secret_key_later';
+const jwtSecret = process.env.JWT_SECRET_KEY;
 
-// TODO: Add more commenting
+/**
+ * Used to log users using password and username.
+ */
 passport.use(
     new BasicStrategy(async (username, password, done) => {
         const [user] = await model.getUserCredentials(username);
@@ -25,6 +26,9 @@ passport.use(
     })
 );
 
+/**
+ * Used to log users using json web tokens.
+ */
 passport.use(
     new JwtStategy(
         {

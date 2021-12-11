@@ -10,8 +10,12 @@ import { model } from '../models/restaurantModel';
 import { model as menuModel } from '../models/productModel';
 import { upload } from '../middleware/upload';
 import multer from 'multer';
+import { cloudinary } from '../cloudinary';
+import { v4 } from 'uuid';
 
 const router = _router();
+
+// TODO: Add more comments
 
 // Restaurant routes \/
 router.get('/:id/menu', async (req, res) => {
@@ -69,6 +73,8 @@ router.post(
     '/upload',
     authenticateJwt,
     upload.single('image'),
+
+    /** @type {import('express').RequestHandler} */
     async (req, res) => {
         /** @type {import('../@types/userModel').user} */
         const user = req.user;
@@ -78,8 +84,19 @@ router.post(
         if (!req.file) return res.sendStatus(400);
         if (restaurantId != req.body.restaurant) return res.sendStatus(400);
 
+        let fileId = req.file.originalname
+            .split('.')
+            .filter((_, index, arr) => index !== arr.length - 1)
+            .join('.');
+
+        fileId += '_' + v4().split('-')[0];
+
+        // eslint-disable-next-line camelcase
+        cloudinary.uploader.upload(req.file.path, { public_id: fileId }).then((res) => console.log(res));
+        const [result] = await model.modifyRestaurant(req.body.restaurant, { picture: fileId });
+
         console.log(req.file);
-        res.sendStatus(202);
+        res.json(result);
     },
     multerError
 );
@@ -179,7 +196,6 @@ router.patch('/operating-hours', authenticateJwt, modifyOpHoursJsonValidator, as
     }
 });
 
-// TODO: Add json verification as json schema
 router.patch('/operating-hours/delete', authenticateJwt, async (req, res) => {
     /** @type {import('../@types/userModel').user} */
     const user = req.user;

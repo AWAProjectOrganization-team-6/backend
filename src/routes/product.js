@@ -1,9 +1,11 @@
 import { Router as _router } from 'express';
+import { v4 } from 'uuid';
 import { authenticateJwt } from '../middleware/authenticate';
 import { createProductJsonValidator, modifyProductJsonValidator, specialOfferJsonValidator } from '../middleware/productMiddleware';
 import { upload } from '../middleware/upload';
 import { model } from '../models/productModel';
 import { model as restauratnModel } from '../models/restaurantModel';
+import { cloudinary } from '../cloudinary';
 
 const router = _router();
 
@@ -41,7 +43,7 @@ router.post('/', authenticateJwt, createProductJsonValidator, async (req, res) =
  * Add images to products
  * @link https://github.com/AWAProjectOrganization-team-6/backend/wiki/Product#upload-product-images
  */
-router.post('/upload', authenticateJwt, upload.array('productImages'), (req, res) => {
+router.post('/upload', authenticateJwt, upload.array('productImages'), async (req, res) => {
     /** @type {import('../@types/userModel').user} */
     const user = req.user;
     const restaurantId = parseInt(req.body.restaurant, 10);
@@ -51,7 +53,27 @@ router.post('/upload', authenticateJwt, upload.array('productImages'), (req, res
     if (restaurantId != req.body.restaurant) return res.sendStatus(400);
 
     console.log(req.files);
-    res.sendStatus(202);
+    const results = [];
+
+    for (const file of req.files) {
+        let fileId = file.originalname
+            .split('.')
+            .filter((_, index, arr) => index !== arr.length - 1)
+            .join('.');
+
+        fileId += '_' + v4().split('-')[0];
+
+        const request = model.setProductImage(req.body.restaurant, { picture: fileId }, file.originalname);
+        request.then((res) => {
+            // eslint-disable-next-line camelcase
+            if (res.count !== 0) cloudinary.uploader.upload(file.path, { public_id: fileId }).then((res) => console.log(res));
+        });
+        results.push(request);
+    }
+
+    const ret = (await Promise.all(results)).flat();
+    console.log(ret);
+    res.json(ret);
 });
 
 /**
@@ -81,7 +103,6 @@ router.patch('/', authenticateJwt, modifyProductJsonValidator, async (req, res) 
     }
 });
 
-// TODO: Add json verification as json schema
 /**
  * Delete product/s from restaurant.
  */
