@@ -44,7 +44,15 @@ export const model = {
      * @returns {Promise<import('../@types/productModel').productReponse>}
      */
     modifyProduct: (restaurantId, productId, info) =>
-        sql`UPDATE "product" SET ${sql(info)} WHERE product_id=${productId} and restaurant_id=${restaurantId} RETURNING *`,
+        sql`UPDATE "product" SET ${sql(info)} WHERE product_id=${productId} AND restaurant_id=${restaurantId} RETURNING *`,
+
+    /**
+     * Modify products information with the new info
+     * @throws Error if the sql update fails
+     * @returns {Promise<import('../@types/productModel').productReponse>}
+     */
+    setProductImage: (restaurantId, fileName, oldFileName) =>
+        sql`UPDATE "product" SET ${sql(fileName)} WHERE restaurant_id=${restaurantId} AND picture=${oldFileName} RETURNING *`,
 
     /**
      * Deletes a product from the database

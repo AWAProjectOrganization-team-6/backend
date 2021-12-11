@@ -1,7 +1,11 @@
 import multer from 'multer';
 import { v4 as uuid4 } from 'uuid';
 
-// TODO: Add comment
+/**
+ * Set multer to handel image files.
+ * Image files are saved to OS common tmp folder
+ * and the images have always unique names.
+ */
 const storage = multer.diskStorage({
     /* destination: (req, file, cb) => {
         cb(null, './tmp');
