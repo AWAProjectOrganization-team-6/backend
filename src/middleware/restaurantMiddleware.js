@@ -10,6 +10,7 @@ const createOpHoursValidator = ajv.compile(createOperatingHoursSchema);
 const modifyOpHoursValidator = ajv.compile(modifyOperatingHoursSchema);
 
 /**
+ * Validator for validating restaurant creation data json.
  * @type {import('express').RequestHandler}
  */
 export const createRestaurantJsonValidator = (req, res, next) => {
@@ -19,6 +20,7 @@ export const createRestaurantJsonValidator = (req, res, next) => {
 };
 
 /**
+ * Validator for validating restaurant modification data json.
  * @type {import('express').RequestHandler}
  */
 export const modifyRestaurantJsonValidator = (req, res, next) => {
@@ -28,18 +30,22 @@ export const modifyRestaurantJsonValidator = (req, res, next) => {
     res.sendStatus(400);
 };
 
-/** @type {import('express').RequestHandler} */
+/**
+ * Validator for validating operating hours creation data json.
+ *  @type {import('express').RequestHandler}
+ */
 export const createOpHoursJsonValidator = (req, res, next) => {
     const validationResult = createOpHoursValidator(req.body);
     if (validationResult) return next();
     res.sendStatus(400);
 };
 
-/** @type {import('express').RequestHandler} */
+/**
+ * Validator for validating operating hours modification data json.
+ * @type {import('express').RequestHandler}
+ */
 export const modifyOpHoursJsonValidator = (req, res, next) => {
     const validationResult = modifyOpHoursValidator(req.body);
     if (validationResult) return next();
     res.sendStatus(400);
 };
-
-// TODO: Comment this file

@@ -4,7 +4,7 @@ import modifyUserSchema from './schemas/user/ModifyUser.schema.json';
 import createPaymentInfoSchema from './schemas/user/CreatePaymentInfo.schema.json';
 import createAddressSchema from './schemas/user/CreateAddress.schema.json';
 
-const ajv = new Ajv();
+const ajv = new Ajv({ allErrors: true });
 
 const createUserValidator = ajv.compile(createUserSchema);
 const modifyUserValidator = ajv.compile(modifyUserSchema);
@@ -18,7 +18,8 @@ const createAddressValidator = ajv.compile(createAddressSchema);
 export const createUserJsonValidator = (req, res, next) => {
     const validationResult = createUserValidator(req.body);
     if (validationResult) return next();
-    res.sendStatus(400);
+    ajv.validate(createUserSchema, req.body);
+    res.status(400).json(ajv.errors);
 };
 
 /**

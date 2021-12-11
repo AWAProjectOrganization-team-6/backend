@@ -36,7 +36,7 @@
         "global-require": "warn",
         "handle-callback-err": "warn",
         "id-blacklist": "warn",
-        "id-length": "warn",
+        "id-length": ["warn", { "exceptionPatterns": ["_"] }],
         "id-match": "warn",
         "indent": "off",
         "indent-legacy": "off",
