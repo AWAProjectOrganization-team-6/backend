@@ -16,4 +16,8 @@ router.post('/', authenticateBasic, (req, res) => {
     res.json({ token });
 });
 
+router.get('/failed', (req, res) => {
+    res.status(401).send('Username or password incorrect');
+});
+
 export default router;

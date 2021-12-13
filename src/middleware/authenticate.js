@@ -13,6 +13,7 @@ const jwtSecret = process.env.JWT_SECRET_KEY;
 passport.use(
     new BasicStrategy(async (username, password, done) => {
         const [user] = await model.getUserCredentials(username);
+        if (!user) return done(null, false);
 
         try {
             if (await verify(user.password.toString(), password)) {
@@ -44,7 +45,7 @@ passport.use(
 );
 
 export const authenticateJwt = passport.authenticate('jwt', { session: false });
-export const authenticateBasic = passport.authenticate('basic', { session: false });
+export const authenticateBasic = passport.authenticate('basic', { session: false, failureRedirect: 'login/failed' });
 
 /**
  * Gets a hash for user password that can be stored to database.
