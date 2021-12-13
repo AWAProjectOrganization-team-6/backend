@@ -66,3 +66,4 @@ dist-server
 # Miscellaneous
 .vscode
 tmp
+set_env.sh
