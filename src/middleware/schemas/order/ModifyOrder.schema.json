@@ -32,11 +32,11 @@
         },
         "ready_time": {
             "$id": "#/properties/ready_time",
-            "type": "string",
+            "type": "integer",
             "title": "The ready_time schema",
             "description": "An explanation about the purpose of this instance.",
-            "default": "",
-            "examples": ["1/1/2021 18:30 +2"]
+            "default": 0,
+            "examples": [1639503767993]
         }
     },
     "additionalProperties": false
