@@ -32,6 +32,29 @@ router.get('/', async (req, res) => {
     res.json(restaurants);
 });
 
+router.get('/search', async (req, res) => {
+    console.log(req.query);
+
+    /** @type {string[]} */
+    const search = req.query.search.toLowerCase().split(' ');
+    try {
+        const restaurants = await model.getRestaurants();
+        const ret = restaurants.filter((val) =>
+            search.some(
+                (searchString) =>
+                    val.name.toLowerCase().includes(searchString) ||
+                    val.address.toLowerCase().includes(searchString) ||
+                    val.type.toLowerCase().includes(searchString)
+            )
+        );
+
+        res.json(ret);
+    } catch (err) {
+        console.error(err);
+        res.status(400).json(err);
+    }
+});
+
 router.post('/', authenticateJwt, createRestaurantJsonValidator, async (req, res) => {
     /** @type {import('../@types/userModel').user} */
     const user = req.user;
